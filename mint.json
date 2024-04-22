@@ -1,91 +1,81 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Rapid",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/logo_new_symbol.png",
+    "light": "/logo/logo_new_symbol.png"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#50F",
+    "light": "#9966ff",
+    "dark": "#220066",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#50F",
+      "to": "#50F"
     }
   },
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:hello@prakharshukla.dev"
     }
   ],
-  "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+  "metadata": {
+    "og:image": "/logo/rapid_og_image.png",
+    "og:title": "Rapid- A typestrong starter",
+    "og:description": "Rapid a starter kit to jumpstart your typeful apps. It is a monorepo that is built on top of Next.js, ExpressJS, Prisma, TS-Rest."
   },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
-  ],
+  "topbarCtaButton": {
+    "name": "GitHub",
+    "url": "https://github.com/imprakharshukla/rapid"
+  },
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "name": "Creator",
+      "icon": "user",
+      "url": "https://prakhar.codes"
     },
     {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "name": "Demo",
+      "icon": "laptop",
+      "url": "https://rapid.prakhar.codes"
     }
   ],
   "navigation": [
     {
       "group": "Get Started",
+      "pages": ["introduction", "quickstart"]
+    },
+    {
+      "group": "Packages",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "packages/introduction",
+        "packages/adding-packages",
+        "packages/deleting-packages"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "API",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "api/introduction",
+        "api/contracts",
+        "api/auth",
+        "api/react-query"
       ]
     },
     {
-      "group": "API Documentation",
-      "pages": [
-        "api-reference/introduction"
-      ]
+      "group": "Auth",
+      "pages": ["auth/introduction", "auth/auth-options", "auth/auth-hook"]
     },
     {
-      "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
-      ]
+      "group": "UI",
+      "pages": ["ui/introduction", "ui/ui-folder"]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "x": "https://x.com/imprakharshukla",
+    "github": "https://github.com/imprakharshukla",
+    "website": "https://prakhar.codes"
   }
 }

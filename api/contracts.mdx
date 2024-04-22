@@ -1,0 +1,105 @@
+Contracts are the shared definitions that we define in-order to get the type-safety from the Rest API.
+
+Example of a contract:
+
+```typescript
+import { initContract } from "@ts-rest/core";
+import { z } from "zod";
+
+const c = initContract();
+
+export const helloContract = c.router({
+  getHello: {
+    method: "GET",
+    path: "/hello",
+    responses: {
+      200: z.object({
+        response: z.string(),
+      }),
+      500: z.object({
+        response: z.string(),
+      }),
+    },
+    summary: "Echo Hello",
+  },
+});
+```
+
+## Adding a contract
+
+You can add a contract by simply creating another file in the `/packages/contract` folder.
+
+Then import it in the index.ts file of the folder and add it to the super contract like this:
+
+```typescript
+import { AppRouter, initContract } from "@ts-rest/core";
+import { textContract } from "./text";
+import { helloContract } from "./hello";
+import { newContract } from "./new";
+
+const c = initContract();
+export const superContract = c.router({
+  text: textContract,
+  hello: helloContract
+  new: newContract // This is the new contract
+});
+```
+
+### Contract Implementation
+
+Now we need to implement this contract in the backend.
+By default we have an express apps, so we will navigate to:
+
+`apps/backend/src/api/routes`
+and create a new route.
+
+We now will have to implement **all** the functions in the contract that we specified in the shared package in the previous step.
+
+Example of contract implementation:
+
+```typescript
+import { initServer } from "@ts-rest/express";
+import Container from "typedi";
+import { Logger } from "winston";
+import { z } from "zod";
+
+import { superContract } from "@repo/contract";
+
+import HelloService from "../../services/hello";
+
+export default (server: ReturnType<typeof initServer>) => {
+  const logger: Logger = Container.get("logger");
+  const helloServiceInstance: HelloService = Container.get(HelloService);
+
+  return server.router(superContract.hello, {
+    getHello: {
+      handler: async () => {
+        try {
+          const hello = helloServiceInstance.generateHello();
+          return {
+            status: 200,
+            body: {
+              response: hello,
+            },
+          };
+        } catch (e) {
+          logger.error(e);
+          return {
+            status: 500,
+            body: {
+              response: "Internal Server Error",
+            },
+          };
+        }
+      },
+    },
+  });
+};
+```
+
+<Note>
+  You can break out all the functionalities related to an entity in the services
+  folder.
+</Note>
+
+Learn more about contracts on the TS-Rest express adapter [documentation](https://ts-rest.com/docs/express).

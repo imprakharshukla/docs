@@ -1,0 +1,127 @@
+Rapid provides a very easy to use hook in your frontend to consume the Rest API.
+
+We have created a hook called useRestClient that:
+
+1. Uses axios for request/response instead of fetch (This eliminates the weird error behaviour of fetch which make it not throw error in _non-2xx_ responses).
+
+2. Attaches the auth JWT with every request.
+
+<Note>Learn more about the TS-Rest React Query wrapper in the [documentation](https://ts-rest.com/docs/react-query).</Note>
+
+### Custom Client with Axios and JWT injection
+
+```typescript
+
+import { InitClientArgs } from "@ts-rest/next";
+import { InitClientReturn, initQueryClient } from "@ts-rest/react-query";
+import axios, { Method, isAxiosError } from "axios";
+
+import { superContract } from "@repo/contract";
+
+
+export interface TokenProvider {
+    getToken: () => Promise<string>;
+}
+
+export class RestAPI {
+    tokenProvider: TokenProvider;
+    public client: InitClientReturn<typeof superContract, InitClientArgs>;
+
+    constructor(tokenProvider: TokenProvider) {
+        const baseUrl = "http://localhost:3002/api";
+
+        this.tokenProvider = tokenProvider;
+        this.client = initQueryClient<typeof superContract, InitClientArgs>(superContract, {
+            baseUrl: baseUrl,
+            baseHeaders: {},
+            api: async ({ path, method, headers, body }) => {
+                //Uncomment to unable authorization
+                // const token = await this.tokenProvider.getToken();
+                try {
+                    const result = await axios.request({
+                        method: method as Method,
+                        url: `${path}`,
+                        headers: {
+                            ...headers,
+                            // Authorization: `Bearer ${token}`,
+                        },
+                        data: body,
+                    });
+
+                    const responseHeaders = new Headers();
+                    Object.entries(result.headers).forEach(([key, value]) => {
+                        if (value !== undefined && typeof value === 'string') {
+                            responseHeaders.append(key, value.toString());
+                        }
+                    });
+
+                    return {
+                        status: result.status,
+                        body: result.data,
+                        headers: responseHeaders,
+                    };
+                } catch (e) {
+                    if (isAxiosError(e) && e.response) {
+                        const errorHeaders = new Headers();
+                        Object.entries(e.response.headers).forEach(([key, value]) => {
+                            if (value !== undefined && typeof value === 'string') {
+                                errorHeaders.append(key, value.toString());
+                            }
+                        });
+                        return {
+                            status: e.response.status,
+                            body: e.response.data,
+                            headers: errorHeaders,
+                        };
+                    }
+                    throw e;
+                }
+            },
+        });
+    }
+}
+```
+
+
+
+### React Query Super Contract Hook
+
+```typescript
+import { useSession } from "next-auth/react";
+import { useMemo } from "react";
+import { RestAPI, TokenProvider } from "~/lib/client";
+
+const fetchToken = async () => {
+    const response = await fetch("/api/token");
+    const data = await response.json();
+    return data.token;
+}
+const useRestAPI = () => {
+    const { data: session } = useSession();
+    const api = useMemo(
+        () => {
+            const tokenProvider: TokenProvider = {
+                getToken: fetchToken
+            };
+            const restApi = new RestAPI(tokenProvider);
+            return { restApi: restApi.client };
+        },
+        [session, fetchToken]
+    );
+
+    return { client: api.restApi };
+};
+
+export default useRestAPI;
+```
+
+This can be used like this:
+
+```typescript
+const { client } = useRestAPI()
+
+const { data: helloData, isLoading: isHelloLoading, error } = client.hello.getHello.useQuery([
+    "hello"
+  ], {
+  })
+```

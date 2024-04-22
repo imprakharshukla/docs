@@ -1,71 +1,45 @@
 ---
 title: Introduction
-description: 'Welcome to the home of your new documentation'
+description: "Rapid, a starter to jumpstart your typeful apps."
 ---
 
-<img
-  className="block dark:hidden"
-  src="/images/hero-light.svg"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/hero-dark.svg"
-  alt="Hero Dark"
-/>
+<img class="rounded-lg" src="/logo/rapid_banner.png" />
 
-## Setting up
+Rapid a starter kit to jumpstart your typeful apps. It is a monorepo that is built on top of:
 
-The first step to world-class documentation is setting up your editing environments.
+1. [NextJS](https://nextjs.org/)
+2. [TypeScript](https://www.typescriptlang.org/)
+3. [TailwindCSS](https://tailwindcss.com/)
+4. [PNPM](https://pnpm.io/)
+5. [ESLint](https://eslint.org/)
+6. [ShadCN/UI](https://ui.shadcn.com)
+7. [Turborepo](https://turbo.pack)
+8. [TS-Rest](https://ts-rest.com)
+9. [Express](https://expressjs.com/)
+10. [Prisma](https://www.prisma.io/)
+11. [NextAuth](https://next-auth.js.org)
 
-<CardGroup cols={2}>
-  <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
-  >
-    Get your docs set up locally for easy development
-  </Card>
-  <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
-  >
-    Preview your changes before you push to make sure they're perfect
-  </Card>
-</CardGroup>
+All these tools are configured to work together out of the box. Rapid is designed to be a monorepo that can be used to build full-stack applications. It is designed to be a starting point for your next project.
 
-## Make it yours
+## Setup up rapid
 
-Update your docs to your brand and add valuable content for the best user conversion.
+Setting up rapid is easy. Just follow the steps below
 
-<CardGroup cols={2}>
-  <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
-  >
-    Customize your docs to your company's colors and brands
-  </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
-    Automatically generate endpoints from an OpenAPI spec
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/components/accordion"
-  >
-    Build interactive features and designs to guide your users
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
-  >
-    Check out our showcase of our favorite documentation
-  </Card>
-</CardGroup>
+<Steps>
+  <Step title="Git Clone">
+    You can git clone or fork the [Rapid GitHub
+    repository](https://github.com/imprakharshukla/rapid) ```bash mkdir rapid &&
+    cd rapid && git clone https://github.com/imprakharshukla/rapid . ```
+  </Step>
+  <Step title="Install the dependencies">
+    Now install the dependencies with (ensure that pnpm is installed
+    [Guide](https://pnpm.io/installation)) ```bash pnpm install ```
+  </Step>
+  <Step title="Start the development server">
+    ```bash pnpm dev ```
+    <Note>
+      You can filter out packages and apps with pnpm workspace's `--filter`
+      option. [Learn more.](https://pnpm.io/filtering)
+    </Note>
+  </Step>
+</Steps>

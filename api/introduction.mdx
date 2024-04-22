@@ -1,0 +1,60 @@
+One of the main benefits of the Rapid starter is the typesafe Rest API powered by TS-Rest and Express.
+
+### Why do we need a typesafe REST API?
+A typesafe REST API ensures data consistency, reduces errors, and enhances developer productivity by enforcing strict data type checks at compile time. It provides clear documentation, improves code maintainability, and facilitates seamless integration and scalability of services.
+
+
+## Express
+Our ExpressJS implementation is inspire from the [Bullet-Proof NodeJS Guide](https://github.com/santiq/bulletproof-nodejs).
+
+It supports:
+
+1. Logging
+2. Dependency Injection
+3. Seperation using routes, services and interfaces.
+4. Out-of-the-box Open-API spec.
+5. Beautiful Reference page using [Scaler](https://github.com/scalar/scalar).
+
+## TS-Rest
+
+Using TS-Rest, we declare contracts to be the basis of the interaction between the client and the server.
+
+Everything is defined and typed using Zod Schema in the contracts.
+
+For example:
+
+```typescript
+import { initContract } from "@ts-rest/core";
+import { z } from "zod";
+
+const c = initContract();
+
+export const helloContract = c.router({
+    getHello: {
+        method: "GET",
+        path: "/hello",
+        responses: {
+            200: z.object({
+                response: z.string(),
+            }),
+            500: z.object({
+                response: z.string(),
+            }),
+        },
+        summary: "Echo Hello",
+    },
+
+});
+```
+
+### Why not something like TRPC?
+One of the biggest differences between tRPC and ts-rest is that tRPC defines your API implementation as the contract, for some use cases it is beneficial to have a separate contract to represent the API.
+
+
+TS-Rest offers a plethora of frontend wrappers like `react-query` or `solid-query` but what if you want to consume the API on a micro-controller?
+
+Well, do not worry, you can just consume it like a normal Rest API.
+
+<Warning>You will not get the typed definition this way but atleast you can consume it.</Warning>
+
+Read the [TS-Rest vs TRPC comparsion](https://ts-rest.com/docs/comparisons/rpc-comparison).

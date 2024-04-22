@@ -1,0 +1,43 @@
+As we discussed earlier that Turborepo and pnpm workspaces handling the packages within our monitorEventLoopDelay, but if we cannot add any new packages, is it even any good?
+
+So, lets learn how to automatically generate packages/apps in our monorepo.
+
+There are two ways to add a package/app in a turborepo monorepo:
+
+1. Automatic Generation
+2. Manual Creation
+
+## Automatic Generation
+
+Turborepo has a very powerful tool to automatically generate new packages/apps based on any of your exisiting packages.
+
+For example:
+
+Suppose, we have to add an addition NextJS app called `admin`, for our admin panel.
+
+We can just run 
+
+```pnpm
+turbo gen workspace --copy landing
+```
+
+This command will copy the `landing` NextJS app and the interactive CLI will let you choose what all packages to include and even to make this a package or an app.
+
+<Note>You can specify the name of the app using the `--name` flag.</Note>
+
+Learn more about code generation in the [Turborepo docs](https://turbo.build/repo/docs/core-concepts/monorepos/code-generation).
+
+
+## Manual Generation
+
+<Warning>We encourage you to use the Turborepo code generator to automatically generate packages.</Warning>
+
+Manual generation is nothing but just manually creating the apps or packages.
+
+Please make sure that the name of the package/app is different in you package.json file and the path of that is added in the `pnpm-workspace.yaml`. 
+
+<Note>By default, the file includes all the packages and apps in the `/apps` and `/packages` folder using a glob matcher.</Note>
+
+
+
+

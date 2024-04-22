@@ -1,0 +1,41 @@
+Auth options are the way to configure the Auth.js authentication providers, adapters, and various other controls.
+
+The base auth-options shipped with Rapid are:
+
+```typescript
+import { DefaultSession, DefaultUser, type NextAuthOptions } from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import OtpGenerator from "otp-generator";
+import { Resend } from "resend";
+import GitHubProvider from "next-auth/providers/github";
+
+import { db } from "@repo/db";
+
+import { env } from "../env.mjs";
+
+export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+  },
+  secret: env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user }) {
+      return token;
+    },
+    async session({ session, token }) {
+      return session;
+    },
+  },
+  adapter: PrismaAdapter(db),
+  providers: [
+    GitHubProvider({
+      clientId: env.GITHUB_ID,
+      clientSecret: env.GITHUB_SECRET,
+    }),
+  ],
+};
+```
+
+### Providers
+
+`GitHubProvider` ships by default but you can add 10s of providers. [Learn more](https://authjs.dev/reference/core/providers).

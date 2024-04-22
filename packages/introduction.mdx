@@ -1,0 +1,53 @@
+Rapid manages packages using **pnpm-workspaces** and **Turborepo**.
+
+The structure of the monorepo is something like this:
+
+
+- apps
+    - backend
+    - demo
+    - landing
+
+- packages
+    - auth
+    - db
+    - ui
+
+The packages/folders in the `packages` folder can we installed using pnpm like any package we install from the NPM repository.
+
+```pnpm
+pnpm install @repo/ui --filter landing
+```
+
+Landing is the name of one of our NextJS apps in the `/apps` folder.
+
+<Note>Read more about pnpm package commands [here](https://pnpm.io/filtering).</Note>
+
+The apps/folders in the `apps` folder represent the individual apps that we have in the monorepo.
+
+
+## What are packages?
+
+Packages contain the code that can be shared between the apps in the `/apps` folder by just installing them with pnpm.
+
+Turborepo build dependencies makes using these packages super easy as you can add a build dependency of the package to the build/dev script of the app, so the packages are transpiled in real-time.
+
+For example:
+
+We share the TS-Rest contracts between apps i.e. the frontend and the backend.
+For this we use a shared package `/packages/contract` which is installed in both all the apps that we want. Now we can import any code from these packages like we do for any other package installed by NPM.
+
+
+## Branding
+
+The packages have a `@repo` prefix by default, you can change that to anything that you like. For example `@rapid/db` etc.
+
+To do this, just find and replace all instances of `@repo` to your desired name.
+
+
+
+<Note>Adding a `@` is encouraged as it helps with scoped packages. [Learn More](https://docs.npmjs.com/cli/v10/using-npm/scope).</Note>
+
+
+
+

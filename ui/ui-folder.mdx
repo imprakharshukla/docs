@@ -1,0 +1,43 @@
+We have created a separate shared package called `/ui`, hence you can re-use the same components in every app without installing the library's component everytime for every app.
+
+This approach makes it very clean to import the components.
+
+### Comparison
+
+Default import:
+
+```typescript
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+```
+
+`/ui` import:
+
+```typescript
+import {
+  Dialog,
+  Button,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Input,
+  Label,
+} from "@repo/ui";
+```
+
+## Adding new components
+
+Since we take a different approach than the default, you will have to copy the components from the Shadcn/ui's [GitHub repository](https://github.com/shadcn-ui/ui) and paste it in the file and export it from the index.ts file.

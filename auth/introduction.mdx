@@ -1,0 +1,57 @@
+Rapid has a separate shared package (`/packages/auth`) for auth so you can use the same auth-options and share the auth share across all your apps.
+
+Auth is powered by [Next-Auth or Auth.js](authjs.dev).
+
+Authentication with TS-Rest and Next-Auth (Auth.js) is implemented by utizing the JWT tokens that Next-Auth manages.
+
+1. Since Next-Auth has no way to get the this token on the frontend, we implement a route in our NextJS app called `/token`.
+
+This route gets the token on the server, decodes and decrypts it. Encodes it again with our secret and then is passed to the Authentication header with every request to our backend.
+
+```typescript
+export async function GET(req: NextRequest) {
+  const token = await getToken({
+    req,
+    secret: env.NEXTAUTH_SECRET,
+  });
+  const jwtToken = jwt.sign(
+    {
+      ...token,
+    },
+    env.NEXTAUTH_SECRET,
+    {
+      algorithm: "HS256",
+    }
+  );
+  return NextResponse.json({ token: jwtToken });
+}
+```
+
+2. On the backend, this header is read and the object is written to the `Request` as `auth`.
+
+3. We can include any information like User Roles, Dates of Birth etc. to this object by tweaking the auth options of Next-Auth. For example:
+
+```typescript
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token?.role) {
+        //@ts-ignore
+        session.user.role = token.role;
+      }
+      //add the user id to the session
+      session.user.id = token.sub ?? "";
+      return session;
+    },
+  },
+```
+
+<Check>
+  This adds the `user.role` and `user.uid` to the auth object (Provided that
+  exists in the database).
+</Check>
