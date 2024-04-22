@@ -5,7 +5,7 @@
     "dark": "/logo/logo_new_symbol.png",
     "light": "/logo/logo_new_symbol.png"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.ico",
   "colors": {
     "primary": "#50F",
     "light": "#9966ff",
@@ -22,7 +22,7 @@
     }
   ],
   "metadata": {
-    "og:image": "/logo/rapid_og_image.png",
+    "og:image": "https://mintlify.s3-us-west-1.amazonaws.com/rapid/logo/rapid_og_image.png",
     "og:title": "Rapid- A typestrong starter",
     "og:description": "Rapid a starter kit to jumpstart your typeful apps. It is a monorepo that is built on top of Next.js, ExpressJS, Prisma, TS-Rest."
   },
