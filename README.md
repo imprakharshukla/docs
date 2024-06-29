@@ -1,7 +1,6 @@
 
 # Rapid
 
-  
 
 <img  width={300}  src="https://imagedelivery.net/nW2YfjVFqxC-ok-_zXWXQw/dd204fc0-c146-4cb6-2ef0-2ad229fcbe00/public" />
 
